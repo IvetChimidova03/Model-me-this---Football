@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+
+public class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+}
+
+public class FootballPlayer : Person
+{
+    public int Number { get; set; }
+    public double Height { get; set; }
+}
+
+public class Goalkeeper : FootballPlayer { }
+
+public class Defender : FootballPlayer { }
+
+public class Midfielder : FootballPlayer { }
+
+public class Striker : FootballPlayer { }
+
+public class Coach : Person { }
+
+public class Referee : Person { }
+
+public class Team
+{
+    public Coach Coach { get; set; }
+    public List<FootballPlayer> Players { get; set; }
+
+    public double AverageAge()
+    {
+        int totalAge = 0;
+        foreach (FootballPlayer player in Players)
+        {
+            totalAge += player.Age;
+        }
+        return (double)totalAge / Players.Count;
+    }
+}
+
+public class Game
+{
+    public Team Team1 { get; set; }
+    public Team Team2 { get; set; }
+    public Referee Referee { get; set; }
+    public List<Goal> Goals { get; set; }
+    public string Result { get; set; }
+    public Team Winner { get; set; }
+}
+
+public class Goal
+{
+    public int Minute { get; set; }
+    public FootballPlayer Player { get; set; }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Goalkeeper player1 = new Goalkeeper { Name = "John Doe", Number = 1, Age = 25, Height = 185 };
+        Defender player2 = new Defender { Name = "Alice Smith", Number = 5, Age = 28, Height = 170 };
+        Midfielder player3 = new Midfielder { Name = "Bob Johnson", Number = 10, Age = 32, Height = 180 };
+        Striker player4 = new Striker { Name = "Eve Wilson", Number = 9, Age = 30, Height = 175 };
+        Coach coach = new Coach { Name = "Michael Brown", Age = 45 };
+        Team team = new Team { Coach = coach, Players = new List<FootballPlayer> { player1, player2, player3, player4 } };
+
+        Referee referee = new Referee { Name = "David Taylor", Age = 40 };
+        List<Goal> goals = new List<Goal> { new Goal { Minute = 15, Player = player3 } };
+        Game game = new Game { Team1 = team, Referee = referee, Goals = goals, Result = "2-1", Winner = team };
+
+        Console.WriteLine("Game Result: " + game.Result);
+        Console.WriteLine("Winner: " + game.Winner.Coach.Name);
+        Console.WriteLine("Average Age of Players in Team: " + team.AverageAge());
+    }
+}
